@@ -41,10 +41,13 @@ class CustomUserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
     def validate_custom_user(self, validated_data):
-        print(validated_data)
-        custom_user = authenticate(
-            username=validated_data['email'],
-            password=validated_data['password'])
+        custom_user = authenticate(username=validated_data['email'], password=validated_data['password'])
         if not custom_user:
-            raise ValidationError('No User')
-        return custom_user
+            raise ValidationError('Invalid login credentials')
+
+        # Preparing the custom response data
+        return {
+            'username': custom_user.username,
+            'money': custom_user.number_of_coins,
+            'vip': int(custom_user.is_vip)  # Converting boolean to int (0 or 1)
+        }
