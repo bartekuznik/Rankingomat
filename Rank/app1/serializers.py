@@ -51,3 +51,12 @@ class CustomUserLoginSerializer(serializers.Serializer):
             'money': custom_user.number_of_coins,
             'vip': int(custom_user.is_vip)  # Converting boolean to int (0 or 1)
         }
+
+class ShopRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    vip = serializers.IntegerField()
+
+    def update_vip_status(self, validated_data):
+        user = CustomUser.objects.get(email=validated_data['email'])
+        user.is_vip = validated_data['vip']
+        user.save()

@@ -9,4 +9,6 @@ urlpatterns = [
     path('register/', CustomUserRegistration.as_view()),
     path('login/', CustomUserLogin.as_view()),
     path('logout/', CustomUserLogout.as_view()),
+    path('update_vip/', UpdateVipStatusView.as_view(), name='update_vip'),
+
 ]
