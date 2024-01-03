@@ -61,8 +61,13 @@ class ShopRequestSerializer(serializers.Serializer):
             user = CustomUser.objects.get(username=validated_data['username'])
             user.is_vip = validated_data['vip']
             user.save()
+            return {
+                'username': user.username,
+                'vip': user.is_vip
+            }
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("User not found.")
+
 
 class TokenPurchaseRequestSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -73,5 +78,9 @@ class TokenPurchaseRequestSerializer(serializers.Serializer):
             user = CustomUser.objects.get(username=validated_data['username'])
             user.number_of_coins += validated_data['tokens']
             user.save()
+            return {
+                'username': user.username,
+                'money': user.number_of_coins
+            }
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("User not found.")
