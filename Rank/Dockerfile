@@ -49,4 +49,4 @@ COPY . .
 EXPOSE 8001
 
 # Run the application.
-CMD gunicorn 'Room_Server.wsgi' --bind=0.0.0.0:8001
+CMD gunicorn 'Rank.wsgi' --bind=0.0.0.0:8001
