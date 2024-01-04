@@ -66,6 +66,17 @@ class UpdateVipStatusView(APIView):
     def post(self, request, format=None):
         serializer = ShopRequestSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.update_vip_status(serializer.validated_data)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            response_data = serializer.update_vip_status(serializer.validated_data)
+            return Response(response_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class PurchaseTokensView(APIView):
+    def post(self, request, format=None):
+        serializer = TokenPurchaseRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                response_data = serializer.add_tokens(serializer.validated_data)
+                return Response(response_data, status=status.HTTP_200_OK)
+            except serializers.ValidationError as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
