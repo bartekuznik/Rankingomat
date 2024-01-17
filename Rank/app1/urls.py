@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout/', CustomUserLogout.as_view()),
     path('update_vip/', UpdateVipStatusView.as_view(), name='update_vip'),
     path('purchase_tokens/', PurchaseTokensView.as_view(), name='purchase_tokens'),
+    path('update_tokens/', UpdateTokenView.as_view(), name='update_tokens'),
 ]

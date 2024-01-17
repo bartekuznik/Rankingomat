@@ -84,3 +84,17 @@ class TokenPurchaseRequestSerializer(serializers.Serializer):
             }
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("User not found.")
+
+class UpdateTokensRequestSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    tokens = serializers.IntegerField()
+    def update(self, validated_data):
+        try:
+            user = CustomUser.objects.get(username=validated_data['username'])
+            if validated_data['tokens'] > user.number_of_coins:
+                # TODO(dodaj winka)
+                ...
+            user.number_of_coins = validated_data['tokens']
+            user.save()
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError("User not found.")
