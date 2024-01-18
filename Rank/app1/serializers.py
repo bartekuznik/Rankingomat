@@ -16,10 +16,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
         ]
 
 class RankSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='player.username', read_only=True)
+    
     class Meta:
         model = Rank
         fields = [
-            'player',
+            'username',
             'win_number'
         ]
 
