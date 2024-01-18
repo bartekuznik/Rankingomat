@@ -90,12 +90,14 @@ class TokenPurchaseRequestSerializer(serializers.Serializer):
 class UpdateTokensRequestSerializer(serializers.Serializer):
     username = serializers.CharField()
     tokens = serializers.IntegerField()
-    def update(self, validated_data):
+    def update_tokens(self, validated_data):
         try:
             user = CustomUser.objects.get(username=validated_data['username'])
             if validated_data['tokens'] > user.number_of_coins:
-                # TODO(dodaj winka)
-                ...
+                # Increase the number of wins
+                rank, created = Rank.objects.get_or_create(player=user)
+                rank.win_number += 1
+                rank.save()
             user.number_of_coins = validated_data['tokens']
             user.save()
         except CustomUser.DoesNotExist:
